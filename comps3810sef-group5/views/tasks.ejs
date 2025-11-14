@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tasks</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <%- include('partials/header') %>
+  <div class="container mt-5">
+    <h1>Task Management</h1>
+
+    <form action="/tasks" method="GET" class="mb-4">
+      <div class="row g-2">
+        <div class="col-md-3">
+          <input type="text" name="title" class="form-control" placeholder="Search title" value="<%= query.title || '' %>">
+        </div>
+        <div class="col-md-2">
+          <select name="priority" class="form-control">
+            <option value="">All Priority</option>
+            <option value="Low" <%= query.priority === 'Low' ? 'selected' : '' %>>Low</option>
+            <option value="Medium" <%= query.priority === 'Medium' ? 'selected' : '' %>>Medium</option>
+            <option value="High" <%= query.priority === 'High' ? 'selected' : '' %>>High</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <select name="status" class="form-control">
+            <option value="">All Status</option>
+            <option value="To-Do" <%= query.status === 'To-Do' ? 'selected' : '' %>>To-Do</option>
+            <option value="In Progress" <%= query.status === 'In Progress' ? 'selected' : '' %>>In Progress</option>
+            <option value="Done" <%= query.status === 'Done' ? 'selected' : '' %>>Done</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <input type="date" name="dueDateStart" class="form-control" value="<%= query.dueDateStart || '' %>">
+        </div>
+        <div class="col-md-2">
+          <input type="date" name="dueDateEnd" class="form-control" value="<%= query.dueDateEnd || '' %>">
+        </div>
+        <div class="col-md-1">
+          <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+      </div>
+    </form>
+
+    <a href="/tasks/create" class="btn btn-success mb-3">Create New Task</a>
+
+    <ul class="list-group">
+      <% tasks.forEach(task => { %>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <strong><%= task.title %></strong> 
+            <span class="badge bg-secondary"><%= task.priority %></span>
+            <span class="badge bg-info"><%= task.status %></span>
+            <% if (task.dueDate) { %>
+              <br><small>Due: <%= task.dueDate.toISOString().split('T')[0] %></small>
+            <% } %>
+          </div>
+          <div>
+            <a href="/tasks/edit/<%= task._id %>" class="btn btn-sm btn-primary">Edit</a>
+            <form action="/tasks/delete/<%= task._id %>" method="POST" style="display:inline;">
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          </div>
+        </li>
+      <% }) %>
+    </ul>
+  </div>
+  <script src="/js/scripts.js"></script>
+</body>
+</html>
