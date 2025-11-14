@@ -26,7 +26,7 @@ app.use(session({
 }));
 
 app.use('/', require('./auth'));
-app.use('/tasks', require('./tasks'));
+app.use('/task', require('./task'));
 app.use('/api', require('./api'));
 
 app.use((req, res) => res.status(404).send('Page Not Found'));
@@ -34,4 +34,5 @@ app.use((req, res) => res.status(404).send('Page Not Found'));
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+
 });
