@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: Azure
     permissions:
       contents: read #This is required for actions/checkout
 
@@ -62,4 +62,5 @@ jobs:
           app-name: 'comp3810sef-group5'
           slot-name: 'Production'
           package: .
+
           
